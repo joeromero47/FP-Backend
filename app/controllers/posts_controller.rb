@@ -1,7 +1,17 @@
 class PostsController < ApplicationController
     def index
-        post = Post.all 
-        render json: post.to_json
+        posts = Post.all 
+        render json: posts.to_json(:include => { 
+            :user => {only: [:username]}
+        })
     end
+
+
+
+    private
+    def post_params
+        params.require(:posts).permit(:content, :user_id)
+    end
+
 
 end
